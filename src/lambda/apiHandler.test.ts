@@ -1,7 +1,7 @@
 import { baseHandler } from './apiHandler';
 import { APIGatewayProxyEvent, Context } from 'aws-lambda';
 import { setupServer } from 'msw/node';
-import { successHandler, errorHandler } from './mocks/handlers';
+import { getTodosSuccessHandler, getTodosErrorHandler, getUsersSuccessHandler } from './mocks/handlers';
 
 const server = setupServer();
 
@@ -16,7 +16,7 @@ afterAll(() => {
 describe('apiHandler テスト', () => {
     it('成功パターン', async () => {
         // 成功パターンのモックを動的に設定
-        server.use(successHandler);
+        server.use(getTodosSuccessHandler, getUsersSuccessHandler);
 
         const event = {} as APIGatewayProxyEvent;
         const context = {} as Context;
@@ -30,6 +30,7 @@ describe('apiHandler テスト', () => {
                 total: 1,
                 skip: 0,
                 limit: 1,
+                userName: 'Pochi',
             });
         } else {
             fail('result is undefined');
@@ -38,7 +39,7 @@ describe('apiHandler テスト', () => {
 
     it('失敗パターン', async () => {
         // 失敗パターンのモックを動的に設定
-        server.use(errorHandler);
+        server.use(getTodosErrorHandler);
 
         const event = {} as APIGatewayProxyEvent;
         const context = {} as Context;
