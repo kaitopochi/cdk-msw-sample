@@ -12,7 +12,7 @@ export class CdkMswSampleStack extends Stack {
         const lambdaFunction = new NodejsFunction(this, 'LambdaFunction', {
             runtime: Runtime.NODEJS_20_X,
             handler: 'handler',
-            entry: join(__dirname, '../lambda/apiHandler.ts'),
+            entry: join(__dirname, '../src/lambda/apiHandler.ts'),
             environment: {
                 MSW_STATUS: 'enabled', // 本番環境では 'disabled' に設定
             },
